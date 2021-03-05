@@ -7,19 +7,26 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <title>Document</title>
+    <style>
+		.list-group{
+			overflow-y: scroll;
+			height: 200px;
+		}
+	</style>
 </head>
 <body>
     <div class="container">
         <div class="row" id="app">
+            <div class="offset-4 col-4 offset-sm-1 col-sm-10">
+                <li class="list-group-item active">Chat Room <span class="badge  badge-pill badge-danger">10 users</span> </li>
+                <ul class="list-group">
+                    <message v-for="message, index in chat.messages" :key="index" :message="message"></message>
 
-            <ul class="list-group offset-4 col-4">
-                <li class="list-group-item active" aria-current="true">Chat room</li>
-                <li class="list-group-item">A second item</li>
-                <li class="list-group-item">A third item</li>
-                <li class="list-group-item">A fourth item</li>
-                <li class="list-group-item">And a fifth one</li>
-                <input type="text" class="form-control" placeholder="Type your message here..." />
-            </ul>
+                </ul>
+                <input type="text" class="form-control" placeholder="Type your message here..."
+                    v-model="message" @keyup.enter="send" />
+            </div>
+
 
         </div>
     </div>
