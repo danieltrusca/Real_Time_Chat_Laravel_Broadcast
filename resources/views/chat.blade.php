@@ -20,8 +20,11 @@
             <div class="offset-4 col-4">
                 <li class="list-group-item active">Chat Room <span class="badge  badge-pill badge-danger">10 users</span> </li>
                 <ul class="list-group"  v-chat-scroll>
-                    <message v-for="message, index in chat.messages" :key="index"
-                    :message="message" color="warning"></message>
+                    <message v-for="value,index in chat.messages"
+                    :message=chat.messages[index]
+                    :key=value.index
+                    :color= chat.color[index]
+                    :user = chat.user[index]></message>
 
                 </ul>
                 <input type="text" class="form-control" placeholder="Type your message here..."

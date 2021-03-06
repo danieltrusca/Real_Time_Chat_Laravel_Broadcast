@@ -1853,7 +1853,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ["message", "color"],
+  props: ["message", "color", "user"],
   computed: {
     className: function className() {
       return "list-group-item-" + this.color;
@@ -1894,18 +1894,45 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_1__.default({
     return {
       message: "",
       chat: {
-        messages: []
+        messages: [],
+        user: [],
+        color: []
       }
     };
   },
   methods: {
     send: function send() {
+      var _this = this;
+
       if (this.message.length > 0) {
         // console.log(this.message);
         this.chat.messages.push(this.message);
-        this.message = "";
+        this.chat.user.push("You");
+        this.chat.color.push("success");
+        axios.post("/send", {
+          message: this.message
+        }).then(function (res) {
+          console.log(res);
+          _this.message = "";
+        })["catch"](function (error) {
+          console.log(error);
+          _this.message = "";
+        });
       }
     }
+  },
+  mounted: function mounted() {
+    var _this2 = this;
+
+    Echo["private"]("chat").listen("ChatEvent", function (e) {
+      _this2.chat.messages.push(e.message);
+
+      _this2.chat.user.push(e.user);
+
+      _this2.chat.color.push("warning");
+
+      console.log(e);
+    });
   }
 });
 
@@ -43565,7 +43592,7 @@ var render = function() {
     ]),
     _vm._v(" "),
     _c("small", { staticClass: "badge float-right", class: _vm.badgeClass }, [
-      _vm._v(" You")
+      _vm._v(" " + _vm._s(_vm.user))
     ])
   ])
 }
