@@ -19,8 +19,14 @@ class ChatController extends Controller
         // return 'dsgdgd';
     }
 
-    public function send(Request $request){
+    // public function send(Request $request){
+    //     $user = User::find(Auth::id());
+    //     event(new ChatEvent($request->message, $user));
+    // }
+
+    public function send(){
+        $message='hiiiii';
         $user = User::find(Auth::id());
-        event(new ChatEvent($request->message, $user));
+        event(new ChatEvent($message, $user));
     }
 }
